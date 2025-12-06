@@ -125,3 +125,18 @@
     border-color: #d1d5db !important;
   }
 }
+
+/* Ocultar barra de Vercel */
+iframe[src*="vercel.com"],
+iframe[src*="vercel-insights"],
+div[data-vercel-banner],
+.vercel-banner,
+#vercel-banner,
+[class*="vercel"],
+[class*="Vercel"] {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  opacity: 0 !important;
+}

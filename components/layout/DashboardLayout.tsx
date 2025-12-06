@@ -14,7 +14,7 @@ import {
   X,
   ShoppingCart
 } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -29,6 +29,37 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession()
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [tenant, setTenant] = useState<{ name: string; logo: string | null } | null>(null)
+
+  useEffect(() => {
+    const loadTenant = async () => {
+      try {
+        const res = await fetch('/api/tenant')
+        if (res.ok) {
+          const data = await res.json()
+          setTenant({ name: data.name, logo: data.logo })
+        }
+      } catch (error) {
+        console.error('Error cargando tenant:', error)
+      }
+    }
+    
+    if (session) {
+      loadTenant()
+    }
+
+    // Escuchar eventos de actualización del tenant
+    const handleTenantUpdate = () => {
+      loadTenant()
+    }
+    
+    if (typeof window !== 'undefined') {
+      window.addEventListener('tenantUpdated', handleTenantUpdate)
+      return () => {
+        window.removeEventListener('tenantUpdated', handleTenantUpdate)
+      }
+    }
+  }, [session])
 
   return (
     <div className="min-h-screen">
@@ -44,9 +75,22 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
               <Link href="/dashboard" className="flex items-center space-x-2">
-                <span className="text-2xl">🍺</span>
+                {tenant?.logo ? (
+                  <img 
+                    src={tenant.logo} 
+                    alt={tenant.name} 
+                    className="h-8 w-8 object-contain"
+                    onError={(e) => {
+                      const img = e.target as HTMLImageElement
+                      img.style.display = 'none'
+                      const fallback = img.parentElement?.querySelector('.logo-fallback') as HTMLElement
+                      if (fallback) fallback.style.display = 'block'
+                    }}
+                  />
+                ) : null}
+                <span className="text-2xl logo-fallback" style={{ display: tenant?.logo ? 'none' : 'block' }}>🍺</span>
                 <span className="text-xl font-bold text-botanero-accent">
-                  Mesas Virtuales
+                  {tenant?.name || 'Mesas Virtuales'}
                 </span>
               </Link>
             </div>

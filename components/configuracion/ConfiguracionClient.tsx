@@ -13,8 +13,6 @@ interface Tenant {
   subdomain: string
   domain: string | null
   logo: string | null
-  primaryColor: string
-  secondaryColor: string
 }
 
 interface Settings {
@@ -59,8 +57,6 @@ export function ConfiguracionClient({
     subdomain: tenant.subdomain,
     domain: tenant.domain || '',
     logo: tenant.logo || '',
-    primaryColor: tenant.primaryColor,
-    secondaryColor: tenant.secondaryColor,
   })
   const [settingsData, setSettingsData] = useState({
     managerPin: '',
@@ -87,6 +83,10 @@ export function ConfiguracionClient({
       }
 
       toast.success('Configuración guardada')
+      // Disparar evento para actualizar el header
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('tenantUpdated'))
+      }
       router.refresh()
     } catch (error: any) {
       toast.error(error.message)
@@ -360,35 +360,19 @@ export function ConfiguracionClient({
               placeholder="https://ejemplo.com/logo.png"
               aria-label="URL del Logo"
             />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-2 text-botanero-dark">
-                Color Primario
-              </label>
-              <input
-                type="color"
-                value={tenantData.primaryColor}
-                onChange={(e) => setTenantData({ ...tenantData, primaryColor: e.target.value })}
-                className="w-full h-10 rounded-lg"
-                title="Color Primario"
-                aria-label="Color Primario"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-2 text-botanero-dark">
-                Color Secundario
-              </label>
-              <input
-                type="color"
-                value={tenantData.secondaryColor}
-                onChange={(e) => setTenantData({ ...tenantData, secondaryColor: e.target.value })}
-                className="w-full h-10 rounded-lg"
-                title="Color Secundario"
-                aria-label="Color Secundario"
-              />
-            </div>
+            {tenantData.logo && (
+              <div className="mt-2 flex items-center space-x-2">
+                <img 
+                  src={tenantData.logo} 
+                  alt="Logo del negocio" 
+                  className="h-12 w-12 object-contain rounded"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none'
+                  }}
+                />
+                <span className="text-xs text-botanero-dark-light">Vista previa del logo</span>
+              </div>
+            )}
           </div>
 
           <button
@@ -529,7 +513,7 @@ export function ConfiguracionClient({
         ) : tickets.length === 0 ? (
           <p className="text-botanero-dark-light text-center py-4">No hay tickets recientes</p>
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-2 max-h-96 overflow-y-auto pr-2">
             {tickets.map((ticket) => (
               <div
                 key={ticket.id}

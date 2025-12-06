@@ -9,9 +9,39 @@ const updateTenantSchema = z.object({
   subdomain: z.string().min(1),
   domain: z.string().optional().nullable(),
   logo: z.string().optional().nullable(),
-  primaryColor: z.string().optional(),
-  secondaryColor: z.string().optional(),
 })
+
+export async function GET(req: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions)
+    
+    if (!session) {
+      return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
+    }
+
+    const tenant = await prisma.tenant.findUnique({
+      where: { id: session.user.tenantId },
+      select: {
+        id: true,
+        name: true,
+        subdomain: true,
+        domain: true,
+        logo: true,
+      },
+    })
+
+    if (!tenant) {
+      return NextResponse.json({ error: 'Tenant no encontrado' }, { status: 404 })
+    }
+
+    return NextResponse.json(tenant)
+  } catch (error: any) {
+    return NextResponse.json(
+      { error: error.message || 'Error al obtener tenant' },
+      { status: 500 }
+    )
+  }
+}
 
 export async function PATCH(req: NextRequest) {
   try {
