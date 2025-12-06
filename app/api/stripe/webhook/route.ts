@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   const sig = req.headers.get('stripe-signature')
   let event
   try {
-    const buf = await req.arrayBuffer()
+    const buf = Buffer.from(await req.arrayBuffer())
     event = stripe.webhooks.constructEvent(buf, sig!, process.env.STRIPE_WEBHOOK_SECRET!)
   } catch (err: any) {
     return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 })
