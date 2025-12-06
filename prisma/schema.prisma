@@ -70,6 +70,7 @@ model User {
   
   tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   tables    Table[]  @relation("TableWaiter")
+  openedTables Table[] @relation("TableOpenedByUser")
   responsibleTables Table[] @relation("TableResponsible")
   closedTickets Ticket[]
   deletions DeletionLog[]
@@ -124,13 +125,15 @@ model Table {
   closedAt      DateTime?
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-  
+  openedByUserId String
+
   tenant        Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   waiter        User?         @relation("TableWaiter", fields: [waiterId], references: [id])
   responsibleUser User?       @relation("TableResponsible", fields: [responsibleUserId], references: [id])
   consumptions  Consumption[]
   tickets       Ticket[]
-  
+  openedByUser   User         @relation("TableOpenedByUser", fields: [openedByUserId], references: [id])
+
   // Removido constraint único para permitir múltiples sesiones de la misma mesa
   // La validación se hace manualmente: solo una mesa abierta puede tener el mismo número
   @@map("tables")
