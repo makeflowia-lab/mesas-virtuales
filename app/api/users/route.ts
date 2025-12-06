@@ -1,4 +1,4 @@
-import { canCreateUser } from '@/lib/limits'
+import { canCreateUser, getTenantPlan } from '@/lib/limits'
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
