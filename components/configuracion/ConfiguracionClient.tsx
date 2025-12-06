@@ -292,6 +292,9 @@ export function ConfiguracionClient({
               onChange={(e) => setTenantData({ ...tenantData, name: e.target.value })}
               className="input"
               required
+              title="Nombre del Negocio"
+              placeholder="Nombre del negocio"
+              aria-label="Nombre del Negocio"
             />
           </div>
 
@@ -305,6 +308,9 @@ export function ConfiguracionClient({
               onChange={(e) => setTenantData({ ...tenantData, subdomain: e.target.value })}
               className="input"
               required
+              title="Subdominio"
+              placeholder="subdominio"
+              aria-label="Subdominio"
             />
             <p className="text-xs text-botanero-dark-light mt-1">
               Tu URL será: {tenantData.subdomain}.mesasvirtual.com
@@ -320,7 +326,9 @@ export function ConfiguracionClient({
               value={tenantData.domain}
               onChange={(e) => setTenantData({ ...tenantData, domain: e.target.value })}
               className="input"
+              title="Dominio Personalizado"
               placeholder="ejemplo.com"
+              aria-label="Dominio Personalizado"
             />
           </div>
 
@@ -333,7 +341,9 @@ export function ConfiguracionClient({
               value={tenantData.logo}
               onChange={(e) => setTenantData({ ...tenantData, logo: e.target.value })}
               className="input"
+              title="URL del Logo"
               placeholder="https://ejemplo.com/logo.png"
+              aria-label="URL del Logo"
             />
           </div>
 
@@ -347,6 +357,8 @@ export function ConfiguracionClient({
                 value={tenantData.primaryColor}
                 onChange={(e) => setTenantData({ ...tenantData, primaryColor: e.target.value })}
                 className="w-full h-10 rounded-lg"
+                title="Color Primario"
+                aria-label="Color Primario"
               />
             </div>
             <div>
@@ -358,6 +370,8 @@ export function ConfiguracionClient({
                 value={tenantData.secondaryColor}
                 onChange={(e) => setTenantData({ ...tenantData, secondaryColor: e.target.value })}
                 className="w-full h-10 rounded-lg"
+                title="Color Secundario"
+                aria-label="Color Secundario"
               />
             </div>
           </div>
@@ -366,6 +380,8 @@ export function ConfiguracionClient({
             type="submit"
             disabled={loading}
             className="btn-primary flex items-center space-x-2 disabled:opacity-50"
+            title="Guardar Cambios"
+            aria-label="Guardar Cambios"
           >
             <Save size={18} />
             <span>{loading ? 'Guardando...' : 'Guardar Cambios'}</span>
@@ -390,7 +406,9 @@ export function ConfiguracionClient({
               value={settingsData.managerPin}
               onChange={(e) => setSettingsData({ ...settingsData, managerPin: e.target.value })}
               className="input"
+              title="PIN Actual"
               placeholder="Ingresa tu PIN actual"
+              aria-label="PIN Actual"
             />
           </div>
 
@@ -403,7 +421,9 @@ export function ConfiguracionClient({
               value={settingsData.newManagerPin}
               onChange={(e) => setSettingsData({ ...settingsData, newManagerPin: e.target.value })}
               className="input"
+              title="Nuevo PIN de Gerente"
               placeholder="Deja vacío para mantener el actual"
+              aria-label="Nuevo PIN de Gerente"
             />
           </div>
 
