@@ -1,0 +1,198 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Tenant (Negocio)
+model Tenant {
+  id            String   @id @default(cuid())
+  name          String
+  subdomain     String   @unique
+  domain        String?  @unique
+  logo          String?
+  primaryColor  String   @default("#FF6B35")
+  secondaryColor String  @default("#F7931E")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  subscriptionPlan   String   @default("free") // free, basic, pro, enterprise
+  subscriptionStatus String   @default("inactive") // active, inactive, canceled, trial
+  subscriptionStartedAt DateTime?
+  subscriptionEndsAt   DateTime?
+  stripeCustomerId     String?
+
+  users         User[]
+  products      Product[]
+  tables        Table[]
+  settings      TenantSettings?
+  tickets       Ticket[]
+
+  @@map("tenants")
+}
+
+// Configuración del Tenant
+model TenantSettings {
+  id              String   @id @default(cuid())
+  tenantId        String   @unique
+  managerPin      String   // PIN encriptado del gerente
+  whatsappMessage String   @default("Aquí está tu ticket de consumo. ¡Gracias por tu visita!")
+  enableTips      Boolean  @default(false)
+  notes           String?
+    // ...existing code...
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  tenant          Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  
+  @@map("tenant_settings")
+}
+
+// Usuario del sistema
+model User {
+    // ...existing code...
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  phone     String?
+  role      Role     @default(MESERO)
+  tenantId  String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tables    Table[]  @relation("TableWaiter")
+  responsibleTables Table[] @relation("TableResponsible")
+  closedTickets Ticket[]
+  deletions DeletionLog[]
+  
+  @@map("users")
+}
+
+enum Role {
+  DUENO
+  GERENTE
+  MESERO
+}
+
+// Producto del catálogo
+model Product {
+  id            String     @id @default(cuid())
+  name          String
+  description   String?
+  image         String?
+  category      Category
+  price         Float
+  available     Boolean    @default(true)
+  tenantId      String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  
+  tenant        Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  consumptions  Consumption[]
+  
+  @@map("products")
+}
+
+enum Category {
+  BOTANA
+  CERVEZA
+  BEBIDA
+  OTRO
+}
+
+// Mesa
+model Table {
+  id            String        @id @default(cuid())
+  number        Int
+  responsibleName String
+  responsiblePhone String
+  responsibleId String?      // ID interno opcional
+  responsibleUserId String?   // Usuario del sistema asignado como responsable
+  status        TableStatus   @default(ABIERTA)
+  tenantId      String
+  waiterId     String?
+  openedAt      DateTime      @default(now())
+  closedAt      DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  
+  tenant        Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  waiter        User?         @relation("TableWaiter", fields: [waiterId], references: [id])
+  responsibleUser User?       @relation("TableResponsible", fields: [responsibleUserId], references: [id])
+  consumptions  Consumption[]
+  tickets       Ticket[]
+  
+  // Removido constraint único para permitir múltiples sesiones de la misma mesa
+  // La validación se hace manualmente: solo una mesa abierta puede tener el mismo número
+  @@map("tables")
+}
+
+enum TableStatus {
+  ABIERTA
+  CERRADA
+}
+
+// Consumo de producto en una mesa
+model Consumption {
+  id            String        @id @default(cuid())
+  tableId       String
+  productId     String
+  quantity      Int           @default(1)
+  price         Float         // Precio al momento de agregar
+  deleted       Boolean       @default(false)
+  deletedAt     DateTime?
+  deletedBy     String?
+  deletedReason String?       @default("Eliminado por Gerencia")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  
+  table         Table         @relation(fields: [tableId], references: [id], onDelete: Cascade)
+  product       Product       @relation(fields: [productId], references: [id])
+  deletionLog   DeletionLog?
+  
+  @@map("consumptions")
+}
+
+// Bitácora de eliminaciones
+model DeletionLog {
+  id            String       @id @default(cuid())
+  consumptionId String       @unique
+  userId        String
+  reason        String?
+  createdAt     DateTime     @default(now())
+  
+  consumption   Consumption  @relation(fields: [consumptionId], references: [id], onDelete: Cascade)
+  user          User         @relation(fields: [userId], references: [id])
+  
+  @@map("deletion_logs")
+}
+
+// Ticket generado al cerrar mesa
+model Ticket {
+  id            String   @id @default(cuid())
+  tableId       String   // Ya no es único - permite múltiples tickets por mesa
+  tenantId      String
+  userId        String   // Usuario que cerró la mesa
+  ticketNumber  String
+  pngUrl        String   // URL del PNG generado
+  items         Json?    // Detalle de productos consumidos (snapshot)
+  total         Float
+  tip           Float?   @default(0)
+  createdAt     DateTime @default(now())
+  
+  table         Table    @relation(fields: [tableId], references: [id], onDelete: Cascade)
+  tenant        Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id])
+  
+  @@map("tickets")
+}
+

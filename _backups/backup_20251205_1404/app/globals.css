@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-inter);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-botanero-primary hover:bg-botanero-warm text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 shadow-lg;
+  }
+  
+  .btn-secondary {
+    @apply bg-botanero-secondary hover:bg-botanero-accent text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200;
+  }
+  
+  .card {
+    @apply bg-white/10 backdrop-blur-md rounded-xl p-6 shadow-xl border border-white/20;
+  }
+  
+  .input {
+    @apply w-full px-4 py-2 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-botanero-primary;
+    border: 2px solid #FFE5DC;
+    color: #2C1810;
+  }
+  
+  .input::placeholder {
+    color: #4A3428;
+  }
+  
+  .input:focus {
+    border-color: #FF6B35;
+  }
+  
+  select.input {
+    color: #2C1810;
+  }
+  
+  select.input option {
+    color: #2C1810;
+    background-color: white;
+  }
+  
+  /* Cards para fondos claros */
+  .card-light {
+    @apply bg-white rounded-xl p-6 shadow-xl;
+    border: 2px solid #FFE5DC;
+  }
+  
+  /* Texto dinámico según fondo */
+  .text-on-light {
+    color: #2C1810;
+  }
+  
+  .text-on-dark {
+    @apply text-white;
+  }
+}

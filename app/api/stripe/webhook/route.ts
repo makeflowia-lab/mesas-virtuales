@@ -1,0 +1,40 @@
+import { NextRequest, NextResponse } from 'next/server'
+import Stripe from 'stripe'
+import { prisma } from '@/lib/prisma'
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2023-08-16' })
+
+export async function POST(req: NextRequest) {
+  const sig = req.headers.get('stripe-signature')
+  let event
+  try {
+    const buf = await req.arrayBuffer()
+    event = stripe.webhooks.constructEvent(buf, sig!, process.env.STRIPE_WEBHOOK_SECRET!)
+  } catch (err: any) {
+    return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 })
+  }
+
+  // Manejar eventos relevantes de Stripe
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object as Stripe.Checkout.Session
+    const tenantId = session.metadata?.tenantId
+    const planId = session.metadata?.planId
+    const billingCycle = session.metadata?.billingCycle
+    const stripeCustomerId = session.customer as string
+    if (tenantId && planId) {
+      await prisma.tenant.update({
+        where: { id: tenantId },
+        data: {
+          subscriptionPlan: planId,
+          subscriptionStatus: 'active',
+          subscriptionStartedAt: new Date(),
+          subscriptionEndsAt: null,
+          stripeCustomerId,
+        },
+      })
+    }
+  }
+  // Puedes manejar otros eventos como subscription.updated, invoice.payment_failed, etc.
+
+  return NextResponse.json({ received: true })
+}

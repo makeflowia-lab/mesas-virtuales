@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-inter);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-botanero-primary hover:bg-botanero-warm text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 shadow-lg;
+  }
+  
+  .btn-secondary {
+    @apply bg-botanero-secondary hover:bg-botanero-accent text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200;
+  }
+  
+  .card {
+    @apply bg-white/10 backdrop-blur-md rounded-xl p-6 shadow-xl border border-white/20;
+  }
+  
+  .input {
+    @apply w-full px-4 py-2 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-botanero-primary;
+    border: 2px solid #FFE5DC;
+    color: #2C1810;
+  }
+  
+  .input::placeholder {
+    color: #4A3428;
+  }
+  
+  .input:focus {
+    border-color: #FF6B35;
+  }
+  
+  select.input {
+    color: #2C1810;
+  }
+  
+  select.input option {
+    color: #2C1810;
+    background-color: white;
+  }
+  
+  /* Cards para fondos claros */
+  .card-light {
+    @apply bg-white rounded-xl p-6 shadow-xl;
+    border: 2px solid #FFE5DC;
+  }
+  
+  /* Texto dinámico según fondo */
+  .text-on-light {
+    color: #2C1810;
+  }
+  
+  .text-on-dark {
+    @apply text-white;
+  }
+}
+
+/* Estilos de impresión para tickets */
+@media print {
+  /* Ocultar todo excepto el contenido del ticket */
+  body * {
+    visibility: hidden;
+  }
+  
+  /* Mostrar solo el contenido del ticket */
+  #ticket-content,
+  #ticket-content * {
+    visibility: visible;
+  }
+  
+  /* Posicionar el ticket en la página */
+  #ticket-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 20px;
+    background: white !important;
+    color: #2C1810 !important;
+    box-shadow: none !important;
+  }
+  
+  /* Ocultar botones y elementos no necesarios al imprimir */
+  button,
+  .no-print,
+  nav,
+  aside,
+  header {
+    display: none !important;
+  }
+  
+  /* Asegurar que el fondo sea blanco */
+  body,
+  html {
+    background: white !important;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Asegurar que los colores del ticket sean visibles */
+  #ticket-content .text-botanero-dark,
+  #ticket-content .text-gray-500,
+  #ticket-content .text-gray-400 {
+    color: #2C1810 !important;
+  }
+  
+  #ticket-content .text-botanero-primary {
+    color: #FF6B35 !important;
+  }
+  
+  /* Asegurar que los bordes sean visibles */
+  #ticket-content .border-gray-300,
+  #ticket-content .border-dashed {
+    border-color: #d1d5db !important;
+  }
+}
