@@ -66,6 +66,7 @@ export function ConfiguracionClient({
     enableTips: settings.enableTips,
     notes: settings.notes || '',
   })
+  const [seeding, setSeeding] = useState(false)
 
   const handleSaveTenant = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -279,6 +280,23 @@ export function ConfiguracionClient({
     } catch (error: any) {
       console.error('Error al compartir ticket por WhatsApp:', error)
       toast.error(error.message || 'Error al compartir el ticket por WhatsApp')
+    }
+  }
+
+  // Ejecutar seed de productos desde la UI (solo admin autenticado)
+  const handleSeedProducts = async () => {
+    try {
+      setSeeding(true)
+      const res = await fetch('/api/admin/seed-products', { method: 'POST' })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Error creando productos')
+      toast.success(data.message || 'Productos semilla creados')
+      // Notificar al resto de la UI para recargar catálogos
+      if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('productsSeeded'))
+    } catch (err: any) {
+      toast.error(err.message || 'Error al crear productos')
+    } finally {
+      setSeeding(false)
     }
   }
 
@@ -499,6 +517,25 @@ export function ConfiguracionClient({
           <h2 className="text-xl font-bold text-botanero-dark">Gestión de Productos</h2>
         </div>
         <GestionProductos />
+      </div>
+
+      {/* Acciones Administrativas */}
+      <div className="bg-white rounded-xl p-6 shadow-xl border-2 border-botanero-primary-light">
+        <div className="flex items-center space-x-2 mb-4">
+          <Package className="text-botanero-primary" size={24} />
+          <h2 className="text-xl font-bold text-botanero-dark">Acciones Administrativas</h2>
+        </div>
+        <div>
+          <p className="text-sm text-botanero-dark-light mb-3">Recarga los productos iniciales (botanas y cervezas) para este tenant.</p>
+          <button
+            onClick={handleSeedProducts}
+            disabled={seeding}
+            className="btn-primary"
+            aria-label="Recargar productos iniciales"
+          >
+            {seeding ? 'Sembrando productos...' : 'Recargar productos iniciales'}
+          </button>
+        </div>
       </div>
 
       {/* Tickets Recientes */}
