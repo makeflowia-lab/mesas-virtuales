@@ -44,7 +44,13 @@ export async function GET(
       )
     }
 
-    return NextResponse.json(ticket)
+      // Asegurarse de que `items` siempre sea un array en la respuesta
+      const normalized = {
+        ...ticket,
+        items: Array.isArray(ticket.items) ? ticket.items : (ticket.items ? [ticket.items] : []),
+      };
+
+      return NextResponse.json({ ticket: normalized })
   } catch (error: any) {
     return NextResponse.json(
       { error: error.message || 'Error al obtener ticket' },
@@ -52,6 +58,7 @@ export async function GET(
     )
   }
 }
+
 
 
 

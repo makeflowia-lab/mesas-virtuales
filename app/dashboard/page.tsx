@@ -1,6 +1,15 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+interface PlanInfo {
+  plan: string
+  status: string
+  startedAt?: string
+  endsAt?: string
+  mesasLimit?: number
+  usersLimit?: number
+  stripeEnabled?: boolean
+}
 import { useSession } from 'next-auth/react'
 import { Table, Package, DollarSign, Clock, X, ExternalLink, MessageCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -36,6 +45,9 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true)
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null)
 
+  const [planInfo, setPlanInfo] = useState<PlanInfo | null>(null)
+  const [loadingPlan, setLoadingPlan] = useState(true)
+
   const loadStats = async () => {
     try {
       const res = await fetch('/api/dashboard/stats')
@@ -48,12 +60,32 @@ export default function DashboardPage() {
     }
   }
 
+  const loadPlan = async () => {
+    try {
+      setLoadingPlan(true)
+      const res = await fetch('/api/tenant/plan')
+      const data = await res.json()
+      setPlanInfo(data)
+    } catch (error) {
+      setPlanInfo(null)
+    } finally {
+      setLoadingPlan(false)
+    }
+  }
+
   useEffect(() => {
     if (session) {
       loadStats()
+      loadPlan()
       // Sincronizar cada 15 segundos
       const interval = setInterval(loadStats, 15000)
+      const planInterval = setInterval(loadPlan, 60000)
       return () => clearInterval(interval)
+      // Limpiar también el intervalo de plan
+      return () => {
+        clearInterval(interval)
+        clearInterval(planInterval)
+      }
     }
   }, [session])
 
@@ -180,6 +212,20 @@ export default function DashboardPage() {
         <p className="text-white/80 mt-2">
           Bienvenido, {session.user.name}
         </p>
+        <div className="mt-4 p-3 rounded-lg bg-white/10 border border-botanero-accent inline-block">
+          {loadingPlan ? (
+            <span className="text-white/60 text-sm">Cargando plan...</span>
+          ) : planInfo ? (
+            <span className="text-white text-sm">
+              <b>Plan actual:</b> {planInfo.plan} <span className="ml-2 px-2 py-1 rounded bg-botanero-accent text-white text-xs uppercase">{planInfo.status}</span>
+              {planInfo.endsAt && planInfo.status === 'active' && (
+                <span className="ml-2 text-white/70">(Vence: {new Date(planInfo.endsAt).toLocaleDateString('es-MX')})</span>
+              )}
+            </span>
+          ) : (
+            <span className="text-red-400 text-sm">No se pudo cargar el plan</span>
+          )}
+        </div>
       </div>
 
       {/* Stats Grid */}

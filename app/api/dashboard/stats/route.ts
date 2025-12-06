@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
         id: t.id,
         total: t.total,
         pngUrl: t.pngUrl,
-        items: t.items, // Incluir items
+        items: Array.isArray(t.items) ? t.items : (t.items ? [t.items] : []), // Normalizar items a array
         createdAt: t.createdAt,
         ticketNumber: t.ticketNumber,
         table: {
