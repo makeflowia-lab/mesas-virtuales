@@ -1,5 +1,6 @@
 import { prisma } from './prisma'
-import bcrypt from 'bcryptjs'
+import { prisma } from './prisma'
+import { Category } from '@prisma/client'
 
 const defaultProducts = [
   // Botanas
@@ -25,6 +26,24 @@ const defaultProducts = [
   { name: 'Pacífico', category: 'CERVEZA', price: 32, description: 'Cerveza Pacífico 355ml' },
   { name: 'Superior', category: 'CERVEZA', price: 31, description: 'Cerveza Superior 355ml' },
   { name: 'Sol', category: 'CERVEZA', price: 30, description: 'Cerveza Sol 355ml' },
+  {
+    name: 'Café Americano',
+    category: Category.BEBIDAS,
+    price: 30,
+    description: 'Café negro tradicional',
+  },
+  {
+    name: 'Croissant',
+    category: Category.PANADERIA,
+    price: 25,
+    description: 'Pan francés hojaldrado',
+  },
+  {
+    name: 'Jugo de Naranja',
+    category: Category.BEBIDAS,
+    price: 35,
+    description: 'Jugo natural de naranja',
+  },
 ]
 
 export async function seedTenant(tenantId: string) {
