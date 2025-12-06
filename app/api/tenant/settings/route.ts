@@ -62,14 +62,14 @@ export async function PATCH(req: NextRequest) {
       }
 
       // Encriptar nuevo PIN
-      data.managerPin = await bcrypt.hash(data.newPin, 10)
+      updateData.managerPin = await bcrypt.hash(data.newPin, 10)
     }
 
     const updateData: any = {}
     if (data.whatsappMessage !== undefined) updateData.whatsappMessage = data.whatsappMessage
     if (data.enableTips !== undefined) updateData.enableTips = data.enableTips
     if (data.notes !== undefined) updateData.notes = data.notes
-    if (data.managerPin) updateData.managerPin = data.managerPin
+    // managerPin ya se asignó arriba si corresponde
 
     const updated = await prisma.tenantSettings.update({
       where: { tenantId: session.user.tenantId },
