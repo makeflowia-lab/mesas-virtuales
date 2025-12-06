@@ -72,6 +72,7 @@ export async function POST(
         tenantId: session.user.tenantId,
         status: 'ABIERTA',
         openedAt: new Date(), // Nueva fecha de apertura = nueva sesión
+        openedByUserId: session.user.id, // Usuario que reabre la mesa
       },
     })
 
