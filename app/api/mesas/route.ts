@@ -10,7 +10,7 @@ export async function PATCH(req: NextRequest) {
     if (!id) {
       return NextResponse.json({ error: 'Falta id de mesa' }, { status: 400 })
     }
-    const table = await prisma.table.findUnique({ where: { id } })
+    const table = await prisma.table.findUnique({ where: { id }, select: { openedByUserId: true } })
     if (!table) {
       return NextResponse.json({ error: 'Mesa no encontrada' }, { status: 404 })
     }
