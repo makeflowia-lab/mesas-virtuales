@@ -548,6 +548,7 @@ export function ConfiguracionClient({
             <button
               onClick={() => setSelectedTicket(null)}
               className="absolute top-3 right-3 p-2 hover:bg-gray-100 rounded-full text-gray-500 transition-colors"
+              title="Cerrar vista previa del ticket"
             >
               <X size={20} />
             </button>
@@ -616,6 +617,7 @@ export function ConfiguracionClient({
               <button 
                 onClick={() => shareTicketOnWhatsApp(selectedTicket, selectedTicket.table.responsiblePhone || '')}
                 className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center space-x-2 text-sm"
+                title="Compartir ticket por WhatsApp"
               >
                 <MessageCircle size={16} />
                 <span>Compartir por WhatsApp</span>

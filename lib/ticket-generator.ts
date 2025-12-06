@@ -9,6 +9,8 @@ interface TicketData {
   closedBy: string
 }
 
+declare const canvas: any
+
 export async function generateTicketPNG(data: TicketData): Promise<Buffer> {
   const {
     tenant,
