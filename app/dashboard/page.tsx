@@ -13,6 +13,7 @@ interface Ticket {
   pngUrl: string
   items: any // JSON de items
   createdAt: string
+  ticketNumber?: string
   table: {
     number: number
     responsibleName: string
