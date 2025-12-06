@@ -1,5 +1,4 @@
 import { prisma } from './prisma'
-import { prisma } from './prisma'
 import { Category } from '@prisma/client'
 
 const defaultProducts = [
