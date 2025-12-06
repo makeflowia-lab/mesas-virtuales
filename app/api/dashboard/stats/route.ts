@@ -46,6 +46,7 @@ export async function GET(req: NextRequest) {
         pngUrl: t.pngUrl,
         items: t.items, // Incluir items
         createdAt: t.createdAt,
+        ticketNumber: t.ticketNumber,
         table: {
           number: t.table.number,
           responsibleName: t.table.responsibleName,
