@@ -161,18 +161,22 @@ export function ConfiguracionClient({
     // Cargar inmediatamente
     loadTickets()
     
-    // Escuchar eventos de actualización cuando se cierra una mesa
+    // Escuchar eventos de actualización cuando se cierra una mesa (si hay window)
     const handleTicketCreated = () => {
       loadTickets()
     }
-    window.addEventListener('ticketCreated', handleTicketCreated)
+    if (typeof window !== 'undefined') {
+      window.addEventListener('ticketCreated', handleTicketCreated)
+    }
 
     // Actualizar cada 10 segundos
     const interval = setInterval(loadTickets, 10000)
     
     return () => {
       clearInterval(interval)
-      window.removeEventListener('ticketCreated', handleTicketCreated)
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('ticketCreated', handleTicketCreated)
+      }
     }
   }, [])
 
@@ -200,18 +204,23 @@ export function ConfiguracionClient({
   // Función para compartir ticket por WhatsApp
   const shareTicketOnWhatsApp = async (ticket: Ticket, phone: string = '') => {
     try {
-      // URL pública de la imagen PNG del ticket
-      const imageUrl = `${window.location.origin}/api/tickets/${ticket.id}/image`
-      
+      if (typeof window === 'undefined' || typeof document === 'undefined') {
+        toast.error('Operación no soportada en este contexto')
+        return
+      }
+
+      // Usar ruta relativa para evitar depender de window.location en tiempo de build
+      const imageUrl = `/api/tickets/${ticket.id}/image`
+
       // Descargar automáticamente la imagen PNG
       const response = await fetch(imageUrl)
       if (!response.ok) {
         throw new Error('Error al descargar la imagen del ticket')
       }
-      
+
       const blob = await response.blob()
       const imageObjectUrl = URL.createObjectURL(blob)
-      
+
       // Crear un enlace temporal para descargar
       const link = document.createElement('a')
       link.href = imageObjectUrl
@@ -219,10 +228,14 @@ export function ConfiguracionClient({
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-      
+
       // Limpiar el objeto URL después de un momento
-      setTimeout(() => URL.revokeObjectURL(imageObjectUrl), 1000)
-      
+      setTimeout(() => {
+        if (typeof URL !== 'undefined' && URL.revokeObjectURL) {
+          URL.revokeObjectURL(imageObjectUrl)
+        }
+      }, 1000)
+
       // Formatear el texto del ticket con enlace a la imagen PNG
       let ticketText = `🍺 TICKET DE VENTA\n\n`
       ticketText += `ID: ${ticket.id.slice(-8).toUpperCase()}\n`
@@ -230,7 +243,7 @@ export function ConfiguracionClient({
       ticketText += `Responsable: ${ticket.table.responsibleName}\n`
       ticketText += `Atendido por: ${ticket.user.name}\n`
       ticketText += `Fecha: ${new Date(ticket.createdAt).toLocaleString('es-MX')}\n\n`
-      
+
       if (ticket.items && Array.isArray(ticket.items) && ticket.items.length > 0) {
         ticketText += `CONSUMO:\n`
         ticket.items.forEach((item: any) => {
@@ -240,7 +253,7 @@ export function ConfiguracionClient({
       } else {
         ticketText += `CONSUMO:\nSin detalle disponible\n\n`
       }
-      
+
       ticketText += `TOTAL: $${ticket.total.toFixed(2)}\n\n`
       ticketText += `📎 Ver/Descargar ticket completo (PNG):\n${imageUrl}\n\n`
       ticketText += `💡 La imagen PNG se ha descargado automáticamente. Puedes arrastrarla a WhatsApp.\n\n`
@@ -248,7 +261,7 @@ export function ConfiguracionClient({
 
       const encodedText = encodeURIComponent(ticketText)
       let url = 'https://wa.me/'
-      
+
       if (phone) {
         // Limpiar el teléfono: solo números, sin +
         const cleanPhone = phone.replace(/[^0-9]/g, '')
@@ -256,14 +269,16 @@ export function ConfiguracionClient({
       } else {
         url += `?text=${encodedText}`
       }
-      
+
       // Abrir WhatsApp después de un breve delay para que la descarga se complete
       setTimeout(() => {
-        window.open(url, '_blank')
+        if (typeof window !== 'undefined' && window.open) {
+          window.open(url, '_blank')
+        }
       }, 500)
     } catch (error: any) {
       console.error('Error al compartir ticket por WhatsApp:', error)
-      alert(error.message || 'Error al compartir el ticket por WhatsApp')
+      toast.error(error.message || 'Error al compartir el ticket por WhatsApp')
     }
   }
 

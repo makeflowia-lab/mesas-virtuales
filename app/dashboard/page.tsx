@@ -65,9 +65,15 @@ export default function DashboardPage() {
   // Función para compartir ticket por WhatsApp
   const shareTicketOnWhatsApp = async (ticket: Ticket, phone: string = '') => {
     try {
-      // URL pública de la imagen PNG del ticket
-      const imageUrl = `${window.location.origin}/api/tickets/${ticket.id}/image`
-      
+      // Evitar uso de `window`/`document` cuando no exista (seguro para SSR)
+      if (typeof window === 'undefined' || typeof document === 'undefined') {
+        toast.error('Operación no soportada en este contexto')
+        return
+      }
+
+      // Usar ruta relativa para evitar depender de window.location en tiempo de build
+      const imageUrl = `/api/tickets/${ticket.id}/image`
+
       // Descargar automáticamente la imagen PNG
       const response = await fetch(imageUrl)
       if (!response.ok) {
@@ -77,16 +83,20 @@ export default function DashboardPage() {
       const blob = await response.blob()
       const imageObjectUrl = URL.createObjectURL(blob)
       
-      // Crear un enlace temporal para descargar
+      // Crear un enlace temporal para descargar (solo en navegador)
       const link = document.createElement('a')
       link.href = imageObjectUrl
       link.download = `ticket-${ticket.ticketNumber || ticket.id.slice(-8)}.png`
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-      
+
       // Limpiar el objeto URL después de un momento
-      setTimeout(() => URL.revokeObjectURL(imageObjectUrl), 1000)
+      setTimeout(() => {
+        if (typeof URL !== 'undefined' && URL.revokeObjectURL) {
+          URL.revokeObjectURL(imageObjectUrl)
+        }
+      }, 1000)
       
       // Formatear el texto del ticket con enlace a la imagen PNG
       let ticketText = `🍺 TICKET DE VENTA\n\n`
@@ -124,7 +134,9 @@ export default function DashboardPage() {
       
       // Abrir WhatsApp después de un breve delay para que la descarga se complete
       setTimeout(() => {
-        window.open(url, '_blank')
+        if (typeof window !== 'undefined' && window.open) {
+          window.open(url, '_blank')
+        }
       }, 500)
     } catch (error: any) {
       console.error('Error al compartir ticket por WhatsApp:', error)
