@@ -293,6 +293,18 @@ export function ConfiguracionClient({
       toast.success(data.message || 'Productos semilla creados')
       // Notificar al resto de la UI para recargar catálogos
       if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('productsSeeded'))
+      // After seeding, fetch list to confirm and show count
+      try {
+        const listRes = await fetch('/api/admin/list-products')
+        const listData = await listRes.json()
+        if (listRes.ok) {
+          toast.success(`${listData.count || 0} productos disponibles ahora`)
+        } else {
+          console.warn('List products failed', listData)
+        }
+      } catch (e) {
+        console.warn('Error fetching products list after seed', e)
+      }
     } catch (err: any) {
       toast.error(err.message || 'Error al crear productos')
     } finally {
