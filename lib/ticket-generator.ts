@@ -400,7 +400,7 @@ async function generateBasicTicketPNG(data: TicketData): Promise<Buffer> {
 
   // Calcular posiciones dinámicas
   const itemsCount = consumptions.length
-  const itemsHeight = itemsCount > 0 ? itemsCount * 25 : 25
+  // Usar itemsHeight ya definido arriba
   const itemsStartY = 220
   const itemsEndY = itemsStartY + itemsHeight
   const totalsStartY = itemsEndY + 10
