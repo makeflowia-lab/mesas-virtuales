@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { Plus, Edit, Trash2, Package, Save, X, Image as ImageIcon } from 'lucide-react'
@@ -287,11 +288,14 @@ export function GestionProductos() {
               {(imagePreview || formData.image) && (
                 <div className="mt-4">
                   <p className="text-sm font-medium mb-2 text-botanero-dark">Vista previa:</p>
-                  <div className="relative inline-block">
-                    <img
-                      src={imagePreview || formData.image}
+                  <div className="mt-2 inline-block">
+                    <Image
+                      src={imagePreview || formData.image || ''}
                       alt="Vista previa"
-                      className="w-32 h-32 object-cover rounded-lg border-2 border-botanero-primary-light"
+                      width={128}
+                      height={128}
+                      className="object-cover rounded-lg border-2 border-botanero-primary-light"
+                      unoptimized
                     />
                     {imageFile && (
                       <button
@@ -417,10 +421,13 @@ export function GestionProductos() {
                     className="bg-botanero-primary-light rounded-lg p-4 border-2 border-botanero-primary-light hover:border-botanero-primary hover:shadow-md transition-all"
                   >
                     {product.image && (
-                      <img
+                      <Image
                         src={product.image}
                         alt={product.name}
+                        width={400}
+                        height={160}
                         className="w-full h-32 object-cover rounded-lg mb-3"
+                        unoptimized
                       />
                     )}
                     <div className="flex justify-between items-start mb-2">

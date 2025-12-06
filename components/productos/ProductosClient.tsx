@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
@@ -87,10 +88,13 @@ export function ProductosClient({
                   className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:shadow-md transition-shadow"
                 >
                   {product.image && (
-                    <img
+                    <Image
                       src={product.image}
                       alt={product.name}
+                      width={400}
+                      height={160}
                       className="w-full h-32 object-cover rounded-lg mb-3"
+                      unoptimized
                     />
                   )}
                   <div className="flex justify-between items-start mb-2">

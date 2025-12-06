@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import toast from 'react-hot-toast'
 import { X } from 'lucide-react'
 
@@ -115,10 +116,13 @@ export function AddProductDialog({
               <div className="p-4 bg-botanero-primary-light rounded-lg border-2 border-botanero-primary-light">
                 <div className="flex items-center space-x-4">
                   {selectedProductData.image && (
-                    <img
+                    <Image
                       src={selectedProductData.image}
                       alt={selectedProductData.name}
+                      width={80}
+                      height={80}
                       className="w-20 h-20 object-cover rounded-lg"
+                      unoptimized
                     />
                   )}
                   <div>

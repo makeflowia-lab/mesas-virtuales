@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { X, RotateCcw } from 'lucide-react'
 
@@ -23,6 +24,7 @@ export function ReopenTableDialog({
   tableNumber,
   onClose,
 }: ReopenTableDialogProps) {
+  const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     responsibleName: '',
@@ -58,8 +60,8 @@ export function ReopenTableDialog({
       }
 
       toast.success('Mesa reabierta exitosamente')
-      // Redirigir a la nueva mesa creada
-      window.location.href = `/dashboard/mesas/${data.table.id}`
+      // Redirigir a la nueva mesa creada usando router
+      router.push(`/dashboard/mesas/${data.table.id}`)
     } catch (error: any) {
       toast.error(error.message)
     } finally {

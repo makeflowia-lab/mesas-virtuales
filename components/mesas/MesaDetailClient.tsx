@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { Plus, Trash2, Minus, Check, X, RotateCcw } from 'lucide-react'
@@ -146,10 +147,13 @@ export function MesaDetailClient({
                 className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 bg-botanero-primary-light rounded-lg border-2 border-botanero-primary-light hover:border-botanero-primary transition-colors"
               >
                 {consumption.product.image && (
-                  <img
+                  <Image
                     src={consumption.product.image}
                     alt={consumption.product.name}
+                    width={64}
+                    height={64}
                     className="w-16 h-16 object-cover rounded-lg"
+                    unoptimized
                   />
                 )}
                 <div className="flex-1">

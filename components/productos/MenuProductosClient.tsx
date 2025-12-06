@@ -3,6 +3,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { Package } from 'lucide-react'
 import { formatCurrency } from '@/lib/utils'
 
@@ -123,10 +124,13 @@ export function MenuProductosClient({
                     className="bg-botanero-primary-light rounded-lg p-4 border-2 border-botanero-primary-light hover:border-botanero-primary hover:shadow-lg transition-all cursor-pointer"
                   >
                     {product.image && (
-                      <img
+                      <Image
                         src={product.image}
                         alt={product.name}
+                        width={400}
+                        height={160}
                         className="w-full h-40 object-cover rounded-lg mb-3"
+                        unoptimized
                       />
                     )}
                     <div className="flex flex-col h-full">
