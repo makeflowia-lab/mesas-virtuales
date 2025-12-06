@@ -287,10 +287,15 @@ export function ConfiguracionClient({
   const handleSeedProducts = async () => {
     try {
       setSeeding(true)
-      const res = await fetch('/api/admin/seed-products', { method: 'POST' })
+      const res = await fetch('/api/admin/seed-products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ force: false }) })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Error creando productos')
-      toast.success(data.message || 'Productos semilla creados')
+      const created = typeof data.created === 'number' ? data.created : 0
+      if (created > 0) {
+        toast.success(`${created} productos semilla creados`)
+      } else {
+        toast.success('No se crearon nuevos productos (ya existían)')
+      }
       // Notificar al resto de la UI para recargar catálogos
       if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('productsSeeded'))
       // After seeding, fetch list to confirm and show count

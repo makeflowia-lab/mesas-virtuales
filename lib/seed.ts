@@ -46,28 +46,49 @@ const defaultProducts = [
   },
 ]
 
-export async function seedTenant(tenantId: string) {
-  // Crear productos por defecto
-  for (const product of defaultProducts) {
-    await prisma.product.create({
-      data: {
-        ...product,
-        tenantId,
-        available: true,
-      },
-    })
+export async function seedTenant(tenantId: string, options?: { force?: boolean }) {
+  // Obtener productos existentes del tenant por nombre
+  const existing = await prisma.product.findMany({
+    where: { tenantId },
+    select: { name: true },
+  })
+  const existingNames = new Set(existing.map(e => e.name))
+
+  const toCreate = defaultProducts.filter(p => options?.force ? true : !existingNames.has(p.name))
+
+  let createdCount = 0
+  if (toCreate.length > 0) {
+    // Crear sólo los que no existían
+    for (const product of toCreate) {
+      await prisma.product.create({
+        data: {
+          ...product,
+          tenantId,
+          available: true,
+        },
+      })
+      createdCount++
+    }
   }
-  
-  // Crear configuración por defecto
+
+  // Upsert configuración por defecto (no duplicar)
   const hashedPin = await bcrypt.hash('1234', 10)
-  await prisma.tenantSettings.create({
-    data: {
+  await prisma.tenantSettings.upsert({
+    where: { tenantId },
+    update: {
+      managerPin: hashedPin,
+      enableTips: false,
+      whatsappMessage: 'Aquí está tu ticket de consumo. ¡Gracias por tu visita!',
+    },
+    create: {
       tenantId,
       managerPin: hashedPin,
       enableTips: false,
       whatsappMessage: 'Aquí está tu ticket de consumo. ¡Gracias por tu visita!',
     },
   })
+
+  return { createdCount }
 }
 
 
