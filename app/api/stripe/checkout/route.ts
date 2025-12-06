@@ -4,7 +4,11 @@ import { authOptions } from '@/lib/auth'
 import Stripe from 'stripe'
 import { PLANS } from '@/lib/plans'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2025-11-17.clover' })
+function getStripe() {
+  const key = process.env.STRIPE_SECRET_KEY
+  if (!key) return null
+  return new Stripe(key, { apiVersion: '2025-11-17.clover' })
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -24,6 +28,9 @@ export async function POST(req: NextRequest) {
     if (!stripePriceId) {
       return NextResponse.json({ error: 'No se encontró el precio de Stripe para este plan.' }, { status: 400 })
     }
+    const stripe = getStripe()
+    if (!stripe) return NextResponse.json({ error: 'Stripe secret key not configured' }, { status: 500 })
+
     const checkoutSession = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'subscription',
