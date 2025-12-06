@@ -4,7 +4,7 @@ import { authOptions } from '@/lib/auth'
 import Stripe from 'stripe'
 import { PLANS } from '@/lib/plans'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2023-08-16' })
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2025-11-17.clover' })
 
 export async function POST(req: NextRequest) {
   try {
