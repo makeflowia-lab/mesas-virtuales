@@ -37,6 +37,7 @@ export default function LoginPage() {
   }
 
   return (
+    // Enlace de registro agregado por Copilot para visibilidad en producción
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="card max-w-md w-full">
         <div className="text-center mb-8">
@@ -79,10 +80,15 @@ export default function LoginPage() {
             {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
           </button>
         </form>
+        <div className="mt-4 text-center">
+          <a href="/register" className="text-botanero-accent hover:underline">
+            ¿No tienes cuenta? Regístrate aquí
+          </a>
+        </div>
+        </div>
       </div>
-    </div>
-  )
-}
+    )
+  }
 
 
 
