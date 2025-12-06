@@ -456,7 +456,7 @@ export function ConfiguracionClient({
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2 flex items-center space-x-2 text-botanero-dark">
+            <label className="flex text-sm font-medium mb-2 items-center space-x-2 text-botanero-dark">
               <MessageSquare size={16} />
               <span>Mensaje de WhatsApp</span>
             </label>
