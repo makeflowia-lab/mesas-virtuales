@@ -81,9 +81,9 @@ export default function LoginPage() {
           </button>
         </form>
         <div className="mt-4 text-center">
-          <a href="/register" className="text-botanero-accent hover:underline">
+          <Link href="/register" className="text-botanero-accent hover:underline">
             ¿No tienes cuenta? Regístrate aquí
-          </a>
+          </Link>
         </div>
         </div>
       </div>
