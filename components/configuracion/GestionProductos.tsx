@@ -250,6 +250,8 @@ export function GestionProductos() {
                 Nombre del Producto *
               </label>
               <input
+                title="Nombre del producto"
+                placeholder="Nombre del producto"
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -263,6 +265,8 @@ export function GestionProductos() {
                 Descripción
               </label>
               <textarea
+                title="Descripción del producto"
+                placeholder="Descripción del producto"
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 className="input"
@@ -340,6 +344,7 @@ export function GestionProductos() {
                   Categoría *
                 </label>
                 <select
+                  title="Categoría del producto"
                   value={formData.category}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                   className="input"
@@ -357,6 +362,8 @@ export function GestionProductos() {
                   Precio *
                 </label>
                 <input
+                  title="Precio del producto"
+                  placeholder="Precio"
                   type="number"
                   value={formData.price}
                   onChange={(e) => setFormData({ ...formData, price: e.target.value })}
@@ -369,7 +376,9 @@ export function GestionProductos() {
             </div>
 
             <div className="flex items-center space-x-2">
-              <input
+                <input
+                  title="URL de la imagen"
+                  placeholder="https://ejemplo.com/imagen.jpg"
                 type="checkbox"
                 id="available"
                 checked={formData.available}
@@ -382,7 +391,8 @@ export function GestionProductos() {
             </div>
 
             <div className="flex space-x-4 pt-4">
-              <button
+                      <button
+                        title="Editar producto"
                 type="submit"
                 className="btn-primary flex items-center space-x-2"
               >
@@ -451,12 +461,14 @@ export function GestionProductos() {
                       </span>
                       <div className="flex space-x-2">
                         <button
+                          title="Eliminar producto"
                           onClick={() => handleEdit(product)}
                           className="p-2 bg-botanero-secondary-light text-botanero-secondary rounded-lg hover:bg-botanero-secondary hover:text-white"
                         >
                           <Edit size={16} />
                         </button>
                         <button
+                          title="Guardar cambios"
                           onClick={() => setShowDeleteDialog(product.id)}
                           className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200"
                         >
@@ -474,7 +486,8 @@ export function GestionProductos() {
             <div className="text-center py-12 bg-white rounded-lg border-2 border-botanero-primary-light">
               <Package className="mx-auto text-botanero-dark-light mb-4" size={48} />
               <p className="text-botanero-dark-light mb-4">No hay productos en el catálogo</p>
-              <button
+                        <button
+                          title="Cancelar edición"
                 onClick={() => {
                   resetForm()
                   setShowForm(true)

@@ -81,7 +81,7 @@
 
        <div className="mb-4">
          <label className="mr-2">Ciclo de facturación:</label>
-         <select value={billingCycle} onChange={e => setBillingCycle(e.target.value as any)} className="input">
+         <select value={billingCycle} onChange={e => setBillingCycle(e.target.value as any)} className="input" title="Seleccionar ciclo de facturación">
            <option value="monthly">Mensual</option>
            <option value="annual">Anual</option>
          </select>

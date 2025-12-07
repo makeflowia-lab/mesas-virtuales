@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { Save, Lock, Palette, MessageSquare, Package, Receipt, ExternalLink, X, MessageCircle } from 'lucide-react'
+import Image from 'next/image'
 import { GestionProductos } from './GestionProductos'
 import { QRCodeSVG } from 'qrcode.react'
 
@@ -397,13 +398,18 @@ export function ConfiguracionClient({
             />
             {tenantData.logo && (
               <div className="mt-2 flex items-center space-x-2">
-                <img 
-                  src={tenantData.logo} 
-                  alt="Logo del negocio" 
+                <Image
+                  src={tenantData.logo}
+                  alt="Logo del negocio"
+                  width={48}
+                  height={48}
                   className="h-12 w-12 object-contain rounded"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none'
+                  onError={e => {
+                    // Ocultar imagen si falla
+                    const target = e.target as HTMLImageElement
+                    target.style.display = 'none'
                   }}
+                  unoptimized
                 />
                 <span className="text-xs text-botanero-dark-light">Vista previa del logo</span>
               </div>

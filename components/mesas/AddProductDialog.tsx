@@ -82,6 +82,7 @@ export function AddProductDialog({
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-botanero-dark">Agregar Producto</h2>
           <button
+            title="Agregar producto"
             onClick={onClose}
             className="p-2 hover:bg-botanero-primary-light rounded-lg text-botanero-dark"
           >
@@ -98,6 +99,7 @@ export function AddProductDialog({
                 Producto *
               </label>
               <select
+                title="Seleccionar producto"
                 value={selectedProduct}
                 onChange={(e) => setSelectedProduct(e.target.value)}
                 className="input"
@@ -143,6 +145,8 @@ export function AddProductDialog({
                 Cantidad *
               </label>
               <input
+                title="Cantidad"
+                placeholder="Cantidad"
                 type="number"
                 value={quantity}
                 onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}

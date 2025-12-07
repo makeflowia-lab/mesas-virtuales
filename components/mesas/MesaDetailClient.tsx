@@ -126,6 +126,7 @@ export function MesaDetailClient({
           <h2 className="text-xl font-bold text-black">Productos</h2>
           {table.status === 'ABIERTA' && (
             <button
+              title="Cerrar mesa"
               onClick={() => setShowAddProduct(true)}
               className="btn-primary flex items-center space-x-2"
             >
@@ -169,6 +170,7 @@ export function MesaDetailClient({
                   {table.status === 'ABIERTA' && (
                     <>
                       <button
+                        title="Eliminar consumo"
                         onClick={() => handleUpdateQuantity(consumption.id, consumption.quantity - 1)}
                         className="p-2 bg-botanero-secondary-light rounded-lg hover:bg-botanero-secondary text-botanero-dark disabled:opacity-50"
                         disabled={consumption.quantity <= 1}
@@ -179,6 +181,7 @@ export function MesaDetailClient({
                         {consumption.quantity}
                       </span>
                       <button
+                        title="Editar consumo"
                         onClick={() => handleUpdateQuantity(consumption.id, consumption.quantity + 1)}
                         className="p-2 bg-botanero-secondary-light rounded-lg hover:bg-botanero-secondary text-botanero-dark"
                       >
@@ -188,6 +191,7 @@ export function MesaDetailClient({
                   )}
                   {canDelete && table.status === 'ABIERTA' && (
                     <button
+                      title="Agregar consumo"
                       onClick={() => setShowDeleteDialog(consumption.id)}
                       className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200"
                     >

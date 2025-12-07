@@ -75,6 +75,7 @@ export function ReopenTableDialog({
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-botanero-dark">Reabrir Mesa {tableNumber}</h2>
           <button
+            title="Reabrir mesa"
             onClick={onClose}
             className="p-2 hover:bg-botanero-primary-light rounded-lg text-botanero-dark"
           >

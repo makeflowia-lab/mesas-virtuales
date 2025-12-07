@@ -125,6 +125,7 @@ export function ProductosClient({
                           <Edit size={16} />
                         </Link>
                         <button
+                          title="Agregar producto"
                           onClick={() => setShowDeleteDialog(product.id)}
                           className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200"
                         >
