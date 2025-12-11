@@ -86,17 +86,21 @@ export default async function MesasPage() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-b from-white via-slate-50 to-slate-100">
-      <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-botanero-primary">Mesas</h1>
-          <p className="text-botanero-dark mt-2">Gestiona las mesas activas</p>
+    <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-amber-50 via-white to-slate-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <div className="bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 text-white rounded-3xl p-6 shadow-2xl relative overflow-hidden">
+        <div className="absolute inset-0 bg-white/10 blur-3xl" />
+        <div className="relative flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <p className="text-sm uppercase tracking-wide text-white/80">Operación</p>
+            <h1 className="text-3xl font-bold">Mesas</h1>
+            <p className="text-white/90 mt-1">Gestiona las mesas activas</p>
+          </div>
+          <Link href="/dashboard/mesas/nueva" className="btn-primary flex items-center space-x-2 bg-white text-orange-600 hover:text-orange-700 hover:bg-white/90 shadow-lg">
+            <Plus size={20} />
+            <span>Nueva Mesa</span>
+          </Link>
         </div>
-        <Link href="/dashboard/mesas/nueva" className="btn-primary flex items-center space-x-2">
-          <Plus size={20} />
-          <span>Nueva Mesa</span>
-        </Link>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -108,7 +112,7 @@ export default async function MesasPage() {
             <Link
               key={table.id}
               href={`/dashboard/mesas/${table.id}`}
-              className="bg-white rounded-xl p-6 shadow-lg border-2 border-botanero-primary-light hover:border-botanero-primary hover:shadow-xl transition-all cursor-pointer"
+              className="bg-white/85 backdrop-blur-xl rounded-2xl p-6 shadow-xl border border-white/70 ring-1 ring-black/5 hover:-translate-y-0.5 hover:shadow-2xl transition-all cursor-pointer"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-2">
@@ -161,7 +165,7 @@ export default async function MesasPage() {
         })}
 
         {tables.length === 0 && (
-          <div className="col-span-full text-center py-12 bg-white rounded-xl p-8 border-2 border-botanero-primary-light">
+          <div className="col-span-full text-center py-12 bg-white/85 backdrop-blur-xl rounded-2xl p-8 border border-white/70 ring-1 ring-black/5 shadow-xl">
             <TableIcon className="mx-auto text-botanero-dark-light mb-4" size={48} />
             <p className="text-botanero-dark-light mb-4">No hay mesas creadas aún</p>
             <Link href="/dashboard/mesas/nueva" className="btn-primary mt-4 inline-block">

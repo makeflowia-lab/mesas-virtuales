@@ -115,14 +115,15 @@ export default function ReportesPage() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-b from-white via-slate-50 to-slate-100">
-      <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-botanero-primary">Reportes</h1>
-        <p className="text-botanero-dark mt-2">Exporta información de consumos y ventas</p>
+    <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-amber-50 via-white to-slate-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <div className="bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 text-white rounded-3xl p-6 shadow-2xl">
+        <p className="text-sm uppercase tracking-wide text-white/85">Análisis</p>
+        <h1 className="text-3xl font-bold">Reportes</h1>
+        <p className="text-white/90 mt-1">Exporta información de consumos y ventas</p>
       </div>
 
-      <div className="bg-white rounded-xl p-6 shadow-xl border-2 border-botanero-secondary-light">
+      <div className="bg-white/85 backdrop-blur-xl rounded-3xl p-6 shadow-2xl border border-white/70 ring-1 ring-black/5">
         <h2 className="text-xl font-bold mb-4 text-botanero-dark">Filtros</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -179,7 +180,7 @@ export default function ReportesPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl p-6 shadow-xl border-2 border-botanero-secondary-light">
+      <div className="bg-white/85 backdrop-blur-xl rounded-3xl p-6 shadow-2xl border border-white/70 ring-1 ring-black/5">
         <div className="flex items-center space-x-2 mb-4">
           <FileText className="text-botanero-primary" size={24} />
           <h2 className="text-xl font-bold text-botanero-dark">Información del Reporte</h2>

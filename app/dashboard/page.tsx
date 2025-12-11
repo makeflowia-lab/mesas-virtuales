@@ -204,82 +204,92 @@ export default function DashboardPage() {
   ]
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-b from-white via-slate-50 to-slate-100">
-      <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
-        <div>
-        <h1 className="text-3xl font-bold text-botanero-accent">
-          Dashboard
-        </h1>
-        <p className="text-slate-600 mt-2">
-          Bienvenido, {session.user.name}
-        </p>
-        <div className="mt-4 p-3 rounded-lg bg-white border border-botanero-accent/40 inline-block shadow-sm">
-          {loadingPlan ? (
-            <span className="text-slate-500 text-sm">Cargando plan...</span>
-          ) : planInfo ? (
-            <span className="text-slate-800 text-sm">
-              <b>Plan actual:</b> {planInfo.plan} <span className="ml-2 px-2 py-1 rounded bg-botanero-accent text-white text-xs uppercase">{planInfo.status}</span>
-              {planInfo.endsAt && planInfo.status === 'active' && (
-                <span className="ml-2 text-slate-500">(Vence: {new Date(planInfo.endsAt).toLocaleDateString('es-MX')})</span>
+    <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-amber-50 via-white to-slate-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        <div className="bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 text-white rounded-3xl p-6 shadow-2xl relative overflow-hidden">
+          <div className="absolute inset-0 bg-white/10 blur-3xl" />
+          <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <p className="text-sm uppercase tracking-wide text-white/90">Panel</p>
+              <h1 className="text-3xl md:text-4xl font-bold mt-1">Dashboard</h1>
+              <p className="text-white/90 mt-2">Bienvenido, {session.user.name}</p>
+            </div>
+            <div className="bg-white/15 backdrop-blur-lg border border-white/20 rounded-2xl px-4 py-3 shadow-lg w-full md:w-auto">
+              {loadingPlan ? (
+                <span className="text-white/80 text-sm">Cargando plan...</span>
+              ) : planInfo ? (
+                <span className="text-white text-sm">
+                  <b>Plan:</b> {planInfo.plan}{' '}
+                  <span className="ml-2 px-2 py-1 rounded-full bg-white/20 text-white text-xs uppercase">
+                    {planInfo.status}
+                  </span>
+                  {planInfo.endsAt && planInfo.status === 'active' && (
+                    <span className="ml-2 text-white/80">
+                      (Vence: {new Date(planInfo.endsAt).toLocaleDateString('es-MX')})
+                    </span>
+                  )}
+                </span>
+              ) : (
+                <span className="text-white text-sm">No se pudo cargar el plan</span>
               )}
-            </span>
-          ) : (
-            <span className="text-red-400 text-sm">No se pudo cargar el plan</span>
-          )}
-        </div>
-      </div>
-
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {statCards.map((stat) => (
-          <div key={stat.name} className="bg-white rounded-2xl p-5 shadow-md border border-slate-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-slate-500 text-sm">{stat.name}</p>
-                <p className={`text-2xl font-bold ${stat.color} mt-2`}>
-                  {stat.value}
-                </p>
-              </div>
-              <stat.icon className={`${stat.color} opacity-50`} size={32} />
             </div>
           </div>
-        ))}
-      </div>
-
-      {/* Recent Tickets */}
-      <div className="bg-white rounded-2xl p-6 shadow-md border border-slate-200">
-        <h2 className="text-xl font-bold mb-4 text-slate-900">Tickets Recientes</h2>
-        <div className="space-y-2">
-          {loading ? (
-            <p className="text-slate-500">Cargando...</p>
-          ) : stats.recentTickets.length === 0 ? (
-            <p className="text-slate-500">No hay tickets recientes</p>
-          ) : (
-            stats.recentTickets.map((ticket) => (
-              <div
-                key={ticket.id}
-                onClick={() => setSelectedTicket(ticket)}
-                className="flex items-center justify-between p-3 bg-slate-50 rounded-lg hover:bg-slate-100 cursor-pointer transition-colors"
-              >
-                <div>
-                  <p className="font-semibold text-slate-800">
-                    Mesa {ticket.table.number} - {ticket.table.responsibleName}
-                  </p>
-                  <p className="text-sm text-slate-500">
-                    {new Date(ticket.createdAt).toLocaleString('es-MX')}
-                  </p>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <p className="text-lg font-bold text-botanero-accent">
-                    ${ticket.total.toFixed(2)}
-                  </p>
-                  <ExternalLink size={16} className="text-slate-400" />
-                </div>
-              </div>
-            ))
-          )}
         </div>
-      </div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {statCards.map((stat) => (
+            <div
+              key={stat.name}
+              className="bg-white/80 backdrop-blur-xl rounded-2xl p-5 shadow-xl border border-white/70 ring-1 ring-black/5"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-slate-500 text-sm">{stat.name}</p>
+                  <p className={`text-2xl font-bold ${stat.color} mt-2`}>
+                    {stat.value}
+                  </p>
+                </div>
+                <stat.icon className={`${stat.color} opacity-60`} size={32} />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Recent Tickets */}
+        <div className="bg-white/85 backdrop-blur-xl rounded-3xl p-6 shadow-2xl border border-white/70 ring-1 ring-black/5">
+          <h2 className="text-xl font-bold mb-4 text-slate-900">Tickets Recientes</h2>
+          <div className="space-y-2">
+            {loading ? (
+              <p className="text-slate-500">Cargando...</p>
+            ) : stats.recentTickets.length === 0 ? (
+              <p className="text-slate-500">No hay tickets recientes</p>
+            ) : (
+              stats.recentTickets.map((ticket) => (
+                <div
+                  key={ticket.id}
+                  onClick={() => setSelectedTicket(ticket)}
+                  className="flex items-center justify-between p-3 bg-gradient-to-r from-slate-50 to-white rounded-2xl hover:shadow-md hover:-translate-y-[1px] transition-all cursor-pointer border border-slate-100"
+                >
+                  <div>
+                    <p className="font-semibold text-slate-800">
+                      Mesa {ticket.table.number} - {ticket.table.responsibleName}
+                    </p>
+                    <p className="text-sm text-slate-500">
+                      {new Date(ticket.createdAt).toLocaleString('es-MX')}
+                    </p>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <p className="text-lg font-bold text-botanero-accent">
+                      ${ticket.total.toFixed(2)}
+                    </p>
+                    <ExternalLink size={16} className="text-slate-400" />
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
 
       {/* Ticket Modal */}
       {selectedTicket && (
