@@ -87,8 +87,8 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="bg-black text-white py-12 border-t border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-gray-400">© 2025 Mesas Virtuales. Transformando la gastronomía.</p>
+        <div className="max-w-7xl mx-auto px-4 text-center space-y-2">
+          <p className="text-gray-400">© 2025 Mesas Virtuales. makeflowia@gmail.com derechos reservados.</p>
         </div>
       </footer>
 

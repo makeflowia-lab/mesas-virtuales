@@ -28,13 +28,13 @@ export const TextParallaxContentExample = () => {
         />
       </TextParallaxContent>
       <TextParallaxContent
-        imgUrl="https://images.unsplash.com/photo-1535958636474-b021ee8876a3?q=80&w=2670&auto=format&fit=crop"
+        imgUrl="https://images.unsplash.com/photo-1521302080334-4bebac2766c1?q=80&w=2400&auto=format&fit=crop"
         subheading="Variedad"
-        heading="Cervezas bien frías."
+        heading="Botanas para compartir."
       >
-        <ExampleContent 
-          title="Carta de bebidas"
-          description="Tenemos la selección más completa de cervezas nacionales e importadas, siempre a la temperatura perfecta. ¡Salud!"
+        <ExampleContent
+          title="Fin de semana entre compas"
+          description="Arma el plan para botanear y echar chelas bien frías con la banda. Tenemos las botanas mexicanas más antojadizas para acompañar la noche. ¡Caigan!"
         />
       </TextParallaxContent>
     </div>
