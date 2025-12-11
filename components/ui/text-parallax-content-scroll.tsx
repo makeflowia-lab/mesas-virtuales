@@ -18,7 +18,7 @@ export const TextParallaxContentExample = () => {
         />
       </TextParallaxContent>
       <TextParallaxContent
-        imgUrl="https://images.unsplash.com/photo-1514361892635-6e122620e4d1?q=80&w=2400&auto=format&fit=crop"
+        imgUrl="https://images.unsplash.com/photo-1542736667-069246bdbc84?q=80&w=2400&auto=format&fit=crop"
         subheading="Calidad"
         heading="Sabor auténtico."
       >
@@ -28,7 +28,7 @@ export const TextParallaxContentExample = () => {
         />
       </TextParallaxContent>
       <TextParallaxContent
-        imgUrl="https://images.unsplash.com/photo-1514361892635-6e122620e4d1?q=80&w=2400&auto=format&fit=crop"
+        imgUrl="https://images.unsplash.com/photo-1604908177630-be6161a56a0c?q=80&w=2400&auto=format&fit=crop"
         subheading="Variedad"
         heading="Botaneando con los compas."
       >
