@@ -11,6 +11,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Datos incompletos' }, { status: 400 })
     }
 
+    // Verificar email único
+    const existingUser = await prisma.user.findUnique({ where: { email } })
+    if (existingUser) {
+      return NextResponse.json({ error: 'El email ya está registrado' }, { status: 400 })
+    }
+
     // Verificar subdominio único
     const existing = await prisma.tenant.findUnique({ where: { subdomain } })
     if (existing) {

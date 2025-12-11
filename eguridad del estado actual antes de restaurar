@@ -1,0 +1,20 @@
+[33mc5cadd5[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m feat: Agregar herramientas de diagnóstico y reset de contraseñas para solucionar problemas de autenticación
+[33m8314cdd[m Fix accessibility: add title/placeholder to buttons, inputs, selects, and replace <img> with <Image />
+[33mbe8234f[m Make seed idempotent; return created count; update admin seed endpoint and UI toast
+[33m3987332[m Normalize ticket items to always be an array in API responses
+[33m2a54263[m feat(admin): add list-products route and show count after seeding from UI
+[33m2d996e5[m feat(ui): add admin seed-products button in ConfiguracionClient
+[33m9fd8f2a[m feat(seed): add admin API route POST /api/admin/seed-products to seed default products for authenticated tenant
+[33ma80c16f[m feat: Actualizar header con nombre y logo del negocio, quitar colores, agregar scroll a tickets y ocultar barra de Vercel
+[33md531ad2[m fix(auth): permitir acceso público a /register en middleware
+[33m2eb324c[m fix(auth): importar Link en login para navegación
+[33m1c868ef[m fix(auth): usar Link para navegación al registro
+[33mb53f1c3[m feat(auth): mostrar enlace de registro en login
+[33m7b4f382[m feat(stripe): confirm checkout session and update tenant; add client confirm component
+[33md2466c0[m feat(auth): add public register page + register API; add subscription return pages
+[33m0eea5c1[m fix(client): guard window/document & use relative ticket image URLs; prevent SSR ReferenceError
+[33mf634c33[m fix(ui): replace <img> with next/image, use router for client navigation, mark reportes API as dynamic
+[33m5ebf865[m chore(deploy): trigger redeploy after env sanitization
+[33m426ec52[m chore(env): add NEXTAUTH_SECRET and NEXTAUTH_URL
+[33m0945503[m chore(env): remove secrets from .env.example
+[33mb31bb17[m chore: trigger redeploy after adding Stripe env vars
