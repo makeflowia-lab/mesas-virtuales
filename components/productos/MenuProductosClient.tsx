@@ -1,7 +1,5 @@
 'use client'
 
-'use client'
-
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { Package } from 'lucide-react'
@@ -81,10 +79,10 @@ export function MenuProductosClient({
       <div className="mb-6 flex flex-wrap gap-2">
         <button
           onClick={() => setSelectedCategory(null)}
-          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+          className={`px-4 py-2 rounded-full font-medium transition-all shadow-sm ${
             selectedCategory === null
-              ? 'bg-botanero-primary text-white'
-              : 'bg-botanero-primary-light text-botanero-dark hover:bg-botanero-primary hover:text-white'
+              ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg'
+              : 'bg-white/80 backdrop-blur border border-white/70 text-slate-700 hover:shadow-md'
           }`}
         >
           Todas
@@ -93,10 +91,10 @@ export function MenuProductosClient({
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            className={`px-4 py-2 rounded-full font-medium transition-all shadow-sm ${
               selectedCategory === category
-                ? 'bg-botanero-primary text-white'
-                : 'bg-botanero-primary-light text-botanero-dark hover:bg-botanero-primary hover:text-white'
+                ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg'
+                : 'bg-white/80 backdrop-blur border border-white/70 text-slate-700 hover:shadow-md'
             }`}
           >
             {categoryLabels[category] || category}
@@ -106,22 +104,23 @@ export function MenuProductosClient({
 
       {/* Grid de productos */}
       {Object.keys(groupedProducts).length === 0 ? (
-        <div className="text-center py-12 bg-white rounded-lg border-2 border-botanero-primary-light">
-          <Package className="mx-auto text-botanero-dark-light mb-4" size={48} />
-          <p className="text-botanero-dark-light">No hay productos disponibles</p>
+        <div className="text-center py-12 bg-white/85 backdrop-blur-xl rounded-2xl border border-white/70 ring-1 ring-black/5 shadow-xl">
+          <Package className="mx-auto text-slate-400 mb-4" size={48} />
+          <p className="text-slate-500">No hay productos disponibles</p>
         </div>
       ) : (
         <div className="space-y-8">
           {Object.entries(groupedProducts).map(([category, categoryProducts]) => (
-            <div key={category} className="bg-white rounded-lg p-6 border-2 border-botanero-primary-light shadow-sm">
-              <h2 className="text-2xl font-bold mb-6 text-botanero-dark">
+            <div key={category} className="bg-white/85 backdrop-blur-xl rounded-3xl p-6 border border-white/70 ring-1 ring-black/5 shadow-2xl">
+              <h2 className="text-2xl font-bold mb-6 text-slate-900 flex items-center gap-2">
+                <span className="inline-block h-2 w-2 rounded-full bg-orange-500" />
                 {categoryLabels[category] || category}
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {categoryProducts.map((product) => (
                   <div
                     key={product.id}
-                    className="bg-botanero-primary-light rounded-lg p-4 border-2 border-botanero-primary-light hover:border-botanero-primary hover:shadow-lg transition-all cursor-pointer"
+                    className="group bg-white/90 backdrop-blur-lg rounded-2xl p-4 border border-white/70 ring-1 ring-black/5 shadow-md hover:shadow-2xl hover:-translate-y-0.5 transition-all cursor-pointer"
                   >
                     {product.image && (
                       <Image
@@ -129,21 +128,24 @@ export function MenuProductosClient({
                         alt={product.name}
                         width={400}
                         height={160}
-                        className="w-full h-40 object-cover rounded-lg mb-3"
+                        className="w-full h-40 object-cover rounded-xl mb-3"
                         unoptimized
                       />
                     )}
                     <div className="flex flex-col h-full">
-                      <h3 className="font-semibold text-botanero-dark mb-1">{product.name}</h3>
+                      <h3 className="font-semibold text-slate-900 mb-1">{product.name}</h3>
                       {product.description && (
-                        <p className="text-sm text-botanero-dark-light mb-2 flex-1">
+                        <p className="text-sm text-slate-600 mb-2 flex-1">
                           {product.description}
                         </p>
                       )}
-                      <div className="mt-auto pt-2">
-                        <p className="font-bold text-botanero-primary text-xl">
+                      <div className="mt-auto pt-2 flex items-center justify-between">
+                        <p className="font-bold text-orange-600 text-xl">
                           {formatCurrency(product.price)}
                         </p>
+                        <span className="text-xs px-2 py-1 rounded-full bg-orange-50 text-orange-700 border border-orange-100">
+                          {categoryLabels[product.category] || product.category}
+                        </span>
                       </div>
                     </div>
                   </div>
