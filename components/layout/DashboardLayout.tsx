@@ -101,7 +101,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 <p className="text-xs text-botanero-accent">{session?.user?.role}</p>
               </div>
               <button
-                onClick={() => signOut()}
+                onClick={() => signOut({ callbackUrl: '/landing' })}
                 className="btn-secondary flex items-center space-x-2"
               >
                 <LogOut size={18} />

@@ -27,8 +27,9 @@ export default async function ProductosPage() {
   })
 
   return (
-    <div className="space-y-6 min-h-screen bg-white">
-      <div className="bg-white border-b-2 border-botanero-primary-light sticky top-0 z-10 p-6">
+    <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-b from-white via-slate-50 to-slate-100">
+      <div className="max-w-7xl mx-auto py-8 space-y-6">
+      <div className="bg-white/90 border border-botanero-primary-light rounded-2xl shadow-sm sticky top-4 z-10 p-6 backdrop-blur">
         <div className="flex items-center space-x-3">
           <Package className="text-botanero-primary" size={32} />
           <div>
@@ -38,9 +39,12 @@ export default async function ProductosPage() {
         </div>
       </div>
 
-      <MenuProductosClient 
-        initialProducts={JSON.parse(JSON.stringify(products))}
-      />
+      <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+        <MenuProductosClient 
+          initialProducts={JSON.parse(JSON.stringify(products))}
+        />
+      </div>
+      </div>
     </div>
   )
 }

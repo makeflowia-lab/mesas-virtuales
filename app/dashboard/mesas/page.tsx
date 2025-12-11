@@ -86,7 +86,8 @@ export default async function MesasPage() {
   }
 
   return (
-    <div className="space-y-6 min-h-screen">
+    <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-b from-white via-slate-50 to-slate-100">
+      <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold text-botanero-primary">Mesas</h1>
@@ -168,6 +169,7 @@ export default async function MesasPage() {
             </Link>
           </div>
         )}
+      </div>
       </div>
     </div>
   )
