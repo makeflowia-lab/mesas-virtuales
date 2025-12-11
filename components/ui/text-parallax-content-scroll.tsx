@@ -18,7 +18,7 @@ export const TextParallaxContentExample = () => {
         />
       </TextParallaxContent>
       <TextParallaxContent
-        imgUrl="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2670&auto=format&fit=crop"
+        imgUrl="https://images.unsplash.com/photo-1514361892635-6e122620e4d1?q=80&w=2400&auto=format&fit=crop"
         subheading="Calidad"
         heading="Sabor auténtico."
       >
@@ -28,13 +28,13 @@ export const TextParallaxContentExample = () => {
         />
       </TextParallaxContent>
       <TextParallaxContent
-        imgUrl="https://images.unsplash.com/photo-1521302080334-4bebac2766c1?q=80&w=2400&auto=format&fit=crop"
+        imgUrl="https://images.unsplash.com/photo-1514361892635-6e122620e4d1?q=80&w=2400&auto=format&fit=crop"
         subheading="Variedad"
-        heading="Botanas para compartir."
+        heading="Botaneando con los compas."
       >
         <ExampleContent
-          title="Fin de semana entre compas"
-          description="Arma el plan para botanear y echar chelas bien frías con la banda. Tenemos las botanas mexicanas más antojadizas para acompañar la noche. ¡Caigan!"
+          title="Plan de fin de semana"
+          description="Arma la rolita al botanero: papas, chicharrón, elotes, tostilocos y cervezas heladas para todos. Caigan con los compas a echar botana y cerveza bien fría."
         />
       </TextParallaxContent>
     </div>
