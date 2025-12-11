@@ -57,7 +57,9 @@ export function InteractiveMenu({ items, accentColor }: InteractiveMenuProps) {
           <button
             key={item.label}
             onClick={() => setActiveIndex(index)}
-            ref={el => (itemRefs.current[index] = el)}
+            ref={el => {
+              itemRefs.current[index] = el
+            }}
             className={cn(
               "flex flex-1 flex-col items-center gap-1 py-2 rounded-xl transition-all",
               isActive ? "bg-neutral-100 dark:bg-neutral-800 shadow-sm" : "hover:bg-neutral-100/70 dark:hover:bg-neutral-800/70"
@@ -68,7 +70,13 @@ export function InteractiveMenu({ items, accentColor }: InteractiveMenuProps) {
               <IconComponent className="h-5 w-5" />
             </div>
             <strong className={cn("text-xs uppercase tracking-wide", isActive ? "text-neutral-900 dark:text-white" : "text-neutral-500 dark:text-neutral-400")}>{item.label}</strong>
-            <div ref={el => (lineRefs.current[index] = el)} className="h-0.5 rounded-full transition-all duration-300" style={{ backgroundColor: isActive ? activeColor : "transparent", width: isActive ? "24px" : "0px" }} />
+            <div
+              ref={el => {
+                lineRefs.current[index] = el
+              }}
+              className="h-0.5 rounded-full transition-all duration-300"
+              style={{ backgroundColor: isActive ? activeColor : "transparent", width: isActive ? "24px" : "0px" }}
+            />
           </button>
         )
       })}
