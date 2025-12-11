@@ -132,12 +132,32 @@ export async function POST(
       }),
     ])
 
+    // Mensaje detallado para WhatsApp con consumos, mesa y total
+    const baseMessage = table.tenant.settings?.whatsappMessage || 'Aquí está tu ticket de consumo. ¡Gracias por tu visita!'
+    const itemsLines = itemsData.length
+      ? itemsData.map(i => `${i.quantity}x ${i.name} - $${i.subtotal.toFixed(2)}`).join('\n')
+      : 'Sin detalle disponible'
+    const responsable = table.responsibleName || 'N/D'
+    // En "Atendido por" usar el ID/manual (ej. M001) si existe, caso contrario nombre
+    const atendidoPor = table.waiter?.employeeCode || table.waiter?.name || session.user.name || 'Equipo'
+    const fecha = new Date().toLocaleString('es-MX')
+    const detailedWhatsAppMessage =
+      `${baseMessage}\n\n` +
+      `Ticket: #${ticketNumber}\n` +
+      `Mesa: ${table.number}\n` +
+      `Responsable: ${responsable}\n` +
+      `Atendido por: ${atendidoPor}\n` +
+      `Fecha: ${fecha}\n\n` +
+      `Consumo:\n${itemsLines}\n\n` +
+      `Total: $${total.toFixed(2)}\n\n` +
+      `Ver ticket: ${pngUrl}`
+
     return NextResponse.json({
       success: true,
       ticket: {
         ...ticket,
         ticketUrl: pngUrl,
-        whatsappMessage: table.tenant.settings?.whatsappMessage || 'Aquí está tu ticket de consumo. ¡Gracias por tu visita!',
+        whatsappMessage: detailedWhatsAppMessage,
         phoneNumber: table.responsiblePhone,
       },
     })
