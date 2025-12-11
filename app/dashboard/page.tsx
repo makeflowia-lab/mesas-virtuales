@@ -210,17 +210,17 @@ export default function DashboardPage() {
         <h1 className="text-3xl font-bold text-botanero-accent">
           Dashboard
         </h1>
-        <p className="text-white/80 mt-2">
+        <p className="text-slate-600 mt-2">
           Bienvenido, {session.user.name}
         </p>
-        <div className="mt-4 p-3 rounded-lg bg-white/10 border border-botanero-accent inline-block">
+        <div className="mt-4 p-3 rounded-lg bg-white border border-botanero-accent/40 inline-block shadow-sm">
           {loadingPlan ? (
-            <span className="text-white/60 text-sm">Cargando plan...</span>
+            <span className="text-slate-500 text-sm">Cargando plan...</span>
           ) : planInfo ? (
-            <span className="text-white text-sm">
+            <span className="text-slate-800 text-sm">
               <b>Plan actual:</b> {planInfo.plan} <span className="ml-2 px-2 py-1 rounded bg-botanero-accent text-white text-xs uppercase">{planInfo.status}</span>
               {planInfo.endsAt && planInfo.status === 'active' && (
-                <span className="ml-2 text-white/70">(Vence: {new Date(planInfo.endsAt).toLocaleDateString('es-MX')})</span>
+                <span className="ml-2 text-slate-500">(Vence: {new Date(planInfo.endsAt).toLocaleDateString('es-MX')})</span>
               )}
             </span>
           ) : (
@@ -232,10 +232,10 @@ export default function DashboardPage() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {statCards.map((stat) => (
-          <div key={stat.name} className="card">
+          <div key={stat.name} className="bg-white rounded-2xl p-5 shadow-md border border-slate-200">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-white/80 text-sm">{stat.name}</p>
+                <p className="text-slate-500 text-sm">{stat.name}</p>
                 <p className={`text-2xl font-bold ${stat.color} mt-2`}>
                   {stat.value}
                 </p>
@@ -247,25 +247,25 @@ export default function DashboardPage() {
       </div>
 
       {/* Recent Tickets */}
-      <div className="card">
-        <h2 className="text-xl font-bold mb-4">Tickets Recientes</h2>
+      <div className="bg-white rounded-2xl p-6 shadow-md border border-slate-200">
+        <h2 className="text-xl font-bold mb-4 text-slate-900">Tickets Recientes</h2>
         <div className="space-y-2">
           {loading ? (
-            <p className="text-white/80">Cargando...</p>
+            <p className="text-slate-500">Cargando...</p>
           ) : stats.recentTickets.length === 0 ? (
-            <p className="text-white/80">No hay tickets recientes</p>
+            <p className="text-slate-500">No hay tickets recientes</p>
           ) : (
             stats.recentTickets.map((ticket) => (
               <div
                 key={ticket.id}
                 onClick={() => setSelectedTicket(ticket)}
-                className="flex items-center justify-between p-3 bg-white/5 rounded-lg hover:bg-white/10 cursor-pointer transition-colors"
+                className="flex items-center justify-between p-3 bg-slate-50 rounded-lg hover:bg-slate-100 cursor-pointer transition-colors"
               >
                 <div>
-                  <p className="font-semibold">
+                  <p className="font-semibold text-slate-800">
                     Mesa {ticket.table.number} - {ticket.table.responsibleName}
                   </p>
-                  <p className="text-sm text-white/70">
+                  <p className="text-sm text-slate-500">
                     {new Date(ticket.createdAt).toLocaleString('es-MX')}
                   </p>
                 </div>
@@ -273,7 +273,7 @@ export default function DashboardPage() {
                   <p className="text-lg font-bold text-botanero-accent">
                     ${ticket.total.toFixed(2)}
                   </p>
-                  <ExternalLink size={16} className="text-white/50" />
+                  <ExternalLink size={16} className="text-slate-400" />
                 </div>
               </div>
             ))
