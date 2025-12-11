@@ -68,6 +68,9 @@ export function ConfiguracionClient({
     notes: settings.notes || '',
   })
   const [seeding, setSeeding] = useState(false)
+  // Se deja preparado pero oculto para uso futuro
+  const showSecuritySection = false
+  const showProductManagement = false
 
   const handleSaveTenant = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -429,118 +432,126 @@ export function ConfiguracionClient({
         </form>
       </div>
 
-      {/* Configuración de Seguridad */}
-      <div className="bg-white rounded-xl p-6 shadow-xl border-2 border-botanero-primary-light">
-        <div className="flex items-center space-x-2 mb-4">
-          <Lock className="text-botanero-primary" size={24} />
-          <h2 className="text-xl font-bold text-botanero-dark">Seguridad</h2>
-        </div>
-
-        <form onSubmit={handleSaveSettings} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-2 text-botanero-dark">
-              PIN Actual (para cambiar PIN)
-            </label>
-            <input
-              type="password"
-              value={settingsData.managerPin}
-              onChange={(e) => setSettingsData({ ...settingsData, managerPin: e.target.value })}
-              className="input"
-              title="PIN Actual"
-              placeholder="Ingresa tu PIN actual"
-              aria-label="PIN Actual"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2 text-botanero-dark">
-              Nuevo PIN de Gerente
-            </label>
-            <input
-              type="password"
-              value={settingsData.newManagerPin}
-              onChange={(e) => setSettingsData({ ...settingsData, newManagerPin: e.target.value })}
-              className="input"
-              title="Nuevo PIN de Gerente"
-              placeholder="Deja vacío para mantener el actual"
-              aria-label="Nuevo PIN de Gerente"
-            />
-          </div>
-
-          {settingsData.newManagerPin && (
-            <div>
-              <label className="block text-sm font-medium mb-2 text-botanero-dark">
-                Confirmar Nuevo PIN
-              </label>
-              <input
-                type="password"
-                value={settingsData.confirmPin}
-                onChange={(e) => setSettingsData({ ...settingsData, confirmPin: e.target.value })}
-                className="input"
-                placeholder="Confirma el nuevo PIN"
-              />
+      {showSecuritySection && (
+        <>
+          {/* Configuración de Seguridad */}
+          <div className="bg-white rounded-xl p-6 shadow-xl border-2 border-botanero-primary-light">
+            <div className="flex items-center space-x-2 mb-4">
+              <Lock className="text-botanero-primary" size={24} />
+              <h2 className="text-xl font-bold text-botanero-dark">Seguridad</h2>
             </div>
-          )}
 
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              id="enableTips"
-              checked={settingsData.enableTips}
-              onChange={(e) => setSettingsData({ ...settingsData, enableTips: e.target.checked })}
-              className="w-4 h-4"
-            />
-            <label htmlFor="enableTips" className="text-sm text-botanero-dark">
-              Habilitar propinas en tickets
-            </label>
+            <form onSubmit={handleSaveSettings} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2 text-botanero-dark">
+                  PIN Actual (para cambiar PIN)
+                </label>
+                <input
+                  type="password"
+                  value={settingsData.managerPin}
+                  onChange={(e) => setSettingsData({ ...settingsData, managerPin: e.target.value })}
+                  className="input"
+                  title="PIN Actual"
+                  placeholder="Ingresa tu PIN actual"
+                  aria-label="PIN Actual"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 text-botanero-dark">
+                  Nuevo PIN de Gerente
+                </label>
+                <input
+                  type="password"
+                  value={settingsData.newManagerPin}
+                  onChange={(e) => setSettingsData({ ...settingsData, newManagerPin: e.target.value })}
+                  className="input"
+                  title="Nuevo PIN de Gerente"
+                  placeholder="Deja vacío para mantener el actual"
+                  aria-label="Nuevo PIN de Gerente"
+                />
+              </div>
+
+              {settingsData.newManagerPin && (
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-botanero-dark">
+                    Confirmar Nuevo PIN
+                  </label>
+                  <input
+                    type="password"
+                    value={settingsData.confirmPin}
+                    onChange={(e) => setSettingsData({ ...settingsData, confirmPin: e.target.value })}
+                    className="input"
+                    placeholder="Confirma el nuevo PIN"
+                  />
+                </div>
+              )}
+
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="enableTips"
+                  checked={settingsData.enableTips}
+                  onChange={(e) => setSettingsData({ ...settingsData, enableTips: e.target.checked })}
+                  className="w-4 h-4"
+                />
+                <label htmlFor="enableTips" className="text-sm text-botanero-dark">
+                  Habilitar propinas en tickets
+                </label>
+              </div>
+
+              <div>
+                <label className="flex text-sm font-medium mb-2 items-center space-x-2 text-botanero-dark">
+                  <MessageSquare size={16} />
+                  <span>Mensaje de WhatsApp</span>
+                </label>
+                <textarea
+                  value={settingsData.whatsappMessage}
+                  onChange={(e) => setSettingsData({ ...settingsData, whatsappMessage: e.target.value })}
+                  className="input"
+                  rows={3}
+                  placeholder="Mensaje que se enviará con el ticket"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 text-botanero-dark">
+                  Notas del Negocio (aparecen en tickets)
+                </label>
+                <textarea
+                  value={settingsData.notes}
+                  onChange={(e) => setSettingsData({ ...settingsData, notes: e.target.value })}
+                  className="input"
+                  rows={3}
+                  placeholder="Mensaje personalizado para los clientes"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn-primary flex items-center space-x-2 disabled:opacity-50"
+              >
+                <Save size={18} />
+                <span>{loading ? 'Guardando...' : 'Guardar Configuración'}</span>
+              </button>
+            </form>
           </div>
+        </>
+      )}
 
-          <div>
-            <label className="flex text-sm font-medium mb-2 items-center space-x-2 text-botanero-dark">
-              <MessageSquare size={16} />
-              <span>Mensaje de WhatsApp</span>
-            </label>
-            <textarea
-              value={settingsData.whatsappMessage}
-              onChange={(e) => setSettingsData({ ...settingsData, whatsappMessage: e.target.value })}
-              className="input"
-              rows={3}
-              placeholder="Mensaje que se enviará con el ticket"
-            />
+      {showProductManagement && (
+        <>
+          {/* Gestión de Productos */}
+          <div className="bg-white rounded-xl p-6 shadow-xl border-2 border-botanero-primary-light">
+            <div className="flex items-center space-x-2 mb-4">
+              <Package className="text-botanero-primary" size={24} />
+              <h2 className="text-xl font-bold text-botanero-dark">Gestión de Productos</h2>
+            </div>
+            <GestionProductos />
           </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2 text-botanero-dark">
-              Notas del Negocio (aparecen en tickets)
-            </label>
-            <textarea
-              value={settingsData.notes}
-              onChange={(e) => setSettingsData({ ...settingsData, notes: e.target.value })}
-              className="input"
-              rows={3}
-              placeholder="Mensaje personalizado para los clientes"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="btn-primary flex items-center space-x-2 disabled:opacity-50"
-          >
-            <Save size={18} />
-            <span>{loading ? 'Guardando...' : 'Guardar Configuración'}</span>
-          </button>
-        </form>
-      </div>
-
-      {/* Gestión de Productos */}
-      <div className="bg-white rounded-xl p-6 shadow-xl border-2 border-botanero-primary-light">
-        <div className="flex items-center space-x-2 mb-4">
-          <Package className="text-botanero-primary" size={24} />
-          <h2 className="text-xl font-bold text-botanero-dark">Gestión de Productos</h2>
-        </div>
-        <GestionProductos />
-      </div>
+        </>
+      )}
 
       {/* Acciones Administrativas */}
       <div className="bg-white rounded-xl p-6 shadow-xl border-2 border-botanero-primary-light">
