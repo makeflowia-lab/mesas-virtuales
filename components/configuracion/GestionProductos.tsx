@@ -208,7 +208,7 @@ export function GestionProductos() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center bg-white/80 backdrop-blur-xl rounded-2xl border border-white/70 ring-1 ring-black/5 p-4 shadow-md">
         <div>
           <h2 className="text-2xl font-bold text-botanero-dark">Gestión de Productos</h2>
           <p className="text-botanero-dark-light mt-1">Administra tu catálogo completo</p>
@@ -219,7 +219,7 @@ export function GestionProductos() {
             setEditingProduct(null)
             setShowForm(true)
           }}
-          className="btn-primary flex items-center space-x-2"
+          className="btn-primary flex items-center space-x-2 shadow-md"
         >
           <Plus size={20} />
           <span>Nuevo Producto</span>
@@ -227,7 +227,7 @@ export function GestionProductos() {
       </div>
 
       {showForm && (
-        <div className="bg-white rounded-lg p-6 border-2 border-botanero-primary-light">
+        <div className="bg-white/90 backdrop-blur-xl rounded-3xl p-6 border border-white/70 ring-1 ring-black/5 shadow-2xl">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl font-bold text-botanero-dark">
               {editingProduct ? 'Editar Producto' : 'Nuevo Producto'}
@@ -420,7 +420,7 @@ export function GestionProductos() {
       ) : (
         <div className="space-y-6">
           {Object.entries(groupedProducts).map(([category, categoryProducts]) => (
-            <div key={category} className="bg-white rounded-lg p-6 border-2 border-botanero-primary-light">
+            <div key={category} className="bg-white/90 backdrop-blur-xl rounded-3xl p-6 border border-white/70 ring-1 ring-black/5 shadow-2xl">
               <h3 className="text-xl font-bold mb-4 text-botanero-dark">
                 {categoryLabels[category]}
               </h3>
@@ -428,7 +428,7 @@ export function GestionProductos() {
                 {categoryProducts.map((product) => (
                   <div
                     key={product.id}
-                    className="bg-botanero-primary-light rounded-lg p-4 border-2 border-botanero-primary-light hover:border-botanero-primary hover:shadow-md transition-all"
+                    className="bg-white/90 backdrop-blur-lg rounded-2xl p-4 border border-white/70 ring-1 ring-black/5 shadow-md hover:shadow-2xl hover:-translate-y-0.5 transition-all"
                   >
                     {product.image && (
                       <Image
@@ -436,7 +436,7 @@ export function GestionProductos() {
                         alt={product.name}
                         width={400}
                         height={160}
-                        className="w-full h-32 object-cover rounded-lg mb-3"
+                        className="w-full h-32 object-cover rounded-xl mb-3"
                         unoptimized
                       />
                     )}
@@ -463,14 +463,14 @@ export function GestionProductos() {
                         <button
                           title="Eliminar producto"
                           onClick={() => handleEdit(product)}
-                          className="p-2 bg-botanero-secondary-light text-botanero-secondary rounded-lg hover:bg-botanero-secondary hover:text-white"
+                          className="p-2 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 border border-orange-100"
                         >
                           <Edit size={16} />
                         </button>
                         <button
                           title="Guardar cambios"
                           onClick={() => setShowDeleteDialog(product.id)}
-                          className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200"
+                          className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 border border-red-100"
                         >
                           <Trash2 size={16} />
                         </button>
@@ -483,7 +483,7 @@ export function GestionProductos() {
           ))}
 
           {products.length === 0 && (
-            <div className="text-center py-12 bg-white rounded-lg border-2 border-botanero-primary-light">
+            <div className="text-center py-12 bg-white/90 backdrop-blur-xl rounded-3xl border border-white/70 ring-1 ring-black/5 shadow-2xl">
               <Package className="mx-auto text-botanero-dark-light mb-4" size={48} />
               <p className="text-botanero-dark-light mb-4">No hay productos en el catálogo</p>
                         <button
